@@ -224,8 +224,12 @@ void InitUserdata()
         if (!ini.GetBool("Dev", "DevMenu", &Engine.devMenu))
             Engine.devMenu = false;
         if (!ini.GetBool("Dev", "EngineDebugMode", &engineDebugMode))
+#if _DEBUG
+            engineDebugMode = true;
+#else
             engineDebugMode = false;
-        if (!ini.GetBool("Dev", "TxtScripts", &forceUseScripts))
+#endif
+		if (!ini.GetBool("Dev", "TxtScripts", &forceUseScripts))
             forceUseScripts = false;
         forceUseScripts_Config = forceUseScripts;
         if (!ini.GetInteger("Dev", "StartingCategory", &Engine.startList))
