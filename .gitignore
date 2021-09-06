@@ -273,3 +273,8 @@ objects/
 .idea/
 android/key/
 android/local.properties
+
+# User files
+/RSDKv4/UData.bin
+/RSDKv4/settings.ini
+/RSDKv4/SData.bin

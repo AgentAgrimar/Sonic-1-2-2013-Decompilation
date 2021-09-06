@@ -46,7 +46,9 @@ void InitUserdata()
 {
     // userdata files are loaded from this directory
     sprintf(gamePath, "%s", BASE_PATH);
+#if RETRO_USE_MOD_LOADER
     sprintf(modsPath, "%s", BASE_PATH);
+#endif
 
 #if RETRO_PLATFORM == RETRO_OSX
     sprintf(gamePath, "%s/RSDKv4", getResourcesPath());
@@ -66,7 +68,9 @@ void InitUserdata()
         strcpy(buffer, env->GetStringUTFChars((jstring)ret, NULL));
 
         sprintf(gamePath, "%s", buffer);
+#if RETRO_USE_MOD_LOADER
         sprintf(modsPath, "%s", buffer);
+#endif
 
         env->DeleteLocalRef(activity);
         env->DeleteLocalRef(cls);
@@ -89,8 +93,12 @@ void InitUserdata()
         IniParser ini;
 
         ini.SetBool("Dev", "DevMenu", Engine.devMenu = false);
+#if _DEBUG
+        ini.SetBool("Dev", "EngineDebugMode", engineDebugMode = true);
+#else
         ini.SetBool("Dev", "EngineDebugMode", engineDebugMode = false);
-        ini.SetBool("Dev", "TxtScripts", forceUseScripts = false);
+#endif
+		ini.SetBool("Dev", "TxtScripts", forceUseScripts = false);
         forceUseScripts_Config = forceUseScripts;
         ini.SetInteger("Dev", "StartingCategory", Engine.startList = 255);
         ini.SetInteger("Dev", "StartingScene", Engine.startStage = 255);
@@ -819,7 +827,9 @@ void Connect2PVS(int *gameLength, int *itemMode)
     matchValueData[1]      = 0;
     matchValueReadPos      = 0;
     matchValueWritePos     = 0;
+#if RETRO_USE_NETWORKING
     Engine.gameMode        = ENGINE_CONNECT2PVS;
+#endif
     // PauseSound();
     // actual connection code
     vsGameLength = *gameLength;
@@ -948,7 +958,10 @@ void receive2PVSMatchCode(int code)
     CREATE_ENTITY(RetroGameLoop); // hack
     if (Engine.gameDeviceType == RETRO_MOBILE)
         CREATE_ENTITY(VirtualDPad);
+
+#if RETRO_USE_NETWORKING
     CREATE_ENTITY(MultiplayerHandler);
+#endif
 }
 
 void ShowPromoPopup(int *id, const char *popupName) { printLog("Attempting to show promo popup: \"%s\" (%d)", popupName, id ? *id : 0); }

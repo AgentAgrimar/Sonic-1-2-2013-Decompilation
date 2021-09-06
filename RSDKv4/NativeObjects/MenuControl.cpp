@@ -346,7 +346,7 @@ void MenuControl_Main(void *objPtr)
                         SetGlobalVariableByName("lampPostID", 0);
                         SetGlobalVariableByName("starPostID", 0);
                         if (Engine.onlineActive) {
-#if !RETRO_USE_ORIGINAL_CODE
+#if !RETRO_USE_ORIGINAL_CODE && RETRO_USE_MOD_LOADER
                             BackupNativeObjects();
                             int id = GetSceneID(STAGELIST_PRESENTATION, "2P VS");
                             if (id == -1)
@@ -358,6 +358,11 @@ void MenuControl_Main(void *objPtr)
                             CREATE_ENTITY(FadeScreen);
                         }
                         else {
+#if RETRO_USE_NETWORKING
+                            disconnectNetwork();
+                            initNetwork(); // let's see if we can turn it on
+#endif
+
                             entity->dialog              = CREATE_ENTITY(DialogPanel);
                             entity->dialog->buttonCount = DLGTYPE_OK;
                             SetStringToFont(entity->dialog->text, strNetworkMessage, FONT_TEXT);

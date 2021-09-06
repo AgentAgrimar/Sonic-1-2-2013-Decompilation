@@ -162,7 +162,7 @@ bool LoadFile(const char *filePath, FileInfo *fileInfo)
     }
 #endif
 
-#if RETRO_PLATFORM == RETRO_OSX || RETRO_PLATFORM == RETRO_ANDROID
+#if RETRO_USE_MOD_LOADER && (RETRO_PLATFORM == RETRO_OSX || RETRO_PLATFORM == RETRO_ANDROID)
     if (addPath) {
         char pathBuf[0x100];
         sprintf(pathBuf, "%s/%s", gamePath, filePathBuf);
@@ -507,6 +507,7 @@ void SetFileInfo(FileInfo *fileInfo)
         packID               = fileInfo->packID;
         Engine.usingDataFile = fileInfo->usingDataPack;
     }
+    fClose(cFileHandle);
 }
 
 size_t GetFilePosition()

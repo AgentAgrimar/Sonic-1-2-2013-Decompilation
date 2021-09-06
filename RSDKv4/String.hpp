@@ -94,6 +94,9 @@ inline void StrCopy(char *dest, const char *src)
 
 inline void StrAdd(char *dest, const char *src)
 {
+#ifdef USE_STDLIB
+    strcat(dest, src);
+#else
     int destStrPos = 0;
     int srcStrPos  = 0;
     while (dest[destStrPos]) ++destStrPos;
@@ -104,10 +107,14 @@ inline void StrAdd(char *dest, const char *src)
         dest[destStrPos++] = src[srcStrPos++];
     }
     dest[destStrPos] = 0;
+#endif
 }
 
 inline bool StrComp(const char *stringA, const char *stringB)
 {
+#ifdef USE_STDLIB
+    return !strcmp(stringA, stringB);
+#else
     bool match    = true;
     bool finished = false;
     while (!finished) {
@@ -126,6 +133,7 @@ inline bool StrComp(const char *stringA, const char *stringB)
         }
     }
     return match;
+#endif
 }
 
 inline int StrLength(const char *string)

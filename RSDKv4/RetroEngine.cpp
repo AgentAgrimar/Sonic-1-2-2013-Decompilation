@@ -2,7 +2,11 @@
 
 #if !RETRO_USE_ORIGINAL_CODE
 bool usingCWD        = false;
+#if _DEBUG
+bool engineDebugMode = true;
+#else
 bool engineDebugMode = false;
+#endif
 #endif
 
 #if RETRO_PLATFORM == RETRO_ANDROID

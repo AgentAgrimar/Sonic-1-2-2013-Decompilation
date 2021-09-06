@@ -4371,10 +4371,6 @@ void Draw3DSkyLayer(int layerID)
         while (cnt--) *frameBufferPtr++ = 0xF81F; // Magenta
     }
 #endif
-
-#if RETRO_HARDWARE_RENDER
-    // unimplimented in RSDK
-#endif
 }
 
 void DrawRectangle(int XPos, int YPos, int width, int height, int R, int G, int B, int A)

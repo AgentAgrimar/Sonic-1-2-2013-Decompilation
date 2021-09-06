@@ -8,8 +8,8 @@
 // be set to true only for preservation purposes
 #define RETRO_USE_ORIGINAL_CODE (0)
 
-#define RETRO_USE_MOD_LOADER (!RETRO_USE_ORIGINAL_CODE && 1)
-#define RETRO_USE_NETWORKING (!RETRO_USE_ORIGINAL_CODE && 1)
+#define RETRO_USE_MOD_LOADER (!RETRO_USE_ORIGINAL_CODE && 0)
+#define RETRO_USE_NETWORKING (!RETRO_USE_ORIGINAL_CODE && 0)
 
 // ================
 // STANDARD LIBS
@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <cmath>
+#include <string>
 
 // ================
 // STANDARD TYPES
@@ -175,7 +176,7 @@ typedef unsigned int uint;
 #endif
 #endif
 
-#define RETRO_USE_HAPTICS (1)
+#define RETRO_USE_HAPTICS (0)
 
 // reverts opcode list back to how it was in earliest builds, fixes bugs on some datafiles
 // generally advised to keep this set to 0

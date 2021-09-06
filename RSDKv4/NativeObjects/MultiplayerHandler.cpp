@@ -1,5 +1,7 @@
 #include "RetroEngine.hpp"
 
+#if RETRO_USE_NETWORKING
+
 void MultiplayerHandler_Create(void *objPtr)
 {
     RSDK_THIS(MultiplayerHandler);
@@ -115,3 +117,5 @@ void MultiplayerHandler_Main(void *objPtr)
             break;
     }
 }
+
+#endif
