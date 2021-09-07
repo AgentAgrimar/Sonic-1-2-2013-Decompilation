@@ -1,7 +1,9 @@
 #include "RetroEngine.hpp"
+#include <time.h>
 
 int main(int argc, char *argv[])
 {
+    srand((uint)time(nullptr));
     for (int i = 0; i < argc; ++i) {
         if (StrComp(argv[i], "UsingCWD"))
             usingCWD = true;

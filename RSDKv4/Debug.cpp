@@ -137,9 +137,10 @@ void processStageSelect()
             if (inputPress.up)
                 gameMenu[0].selection2 -= 2;
 
-            int count = 15;
 #if RETRO_USE_MOD_LOADER
-            count += 2;
+            int count = 17;
+#else
+            int count = 15;
 #endif
 
             if (gameMenu[0].selection2 > count)
@@ -159,7 +160,7 @@ void processStageSelect()
                 }
                 else if (gameMenu[0].selection2 == 11) {
                     SetupTextMenu(&gameMenu[0], 0);
-                    AddTextMenuEntry(&gameMenu[0], "SELECT A PLAYER");
+                    AddTextMenuEntry(&gameMenu[0], "CHARACTER SELECT");
                     SetupTextMenu(&gameMenu[1], 0);
                     LoadConfigListText(&gameMenu[1], 0);
                     gameMenu[1].alignment      = 0;
@@ -273,7 +274,7 @@ void processStageSelect()
 
             if ((inputPress.start || inputPress.A) && nextMenu) {
                 SetupTextMenu(&gameMenu[0], 0);
-                AddTextMenuEntry(&gameMenu[0], "SELECT A STAGE");
+                AddTextMenuEntry(&gameMenu[0], "SELECT STAGE SCENE");
                 SetupTextMenu(&gameMenu[1], 0);
                 LoadConfigListText(&gameMenu[1], ((gameMenu[0].selection2 - 3) >> 1) + 1);
                 gameMenu[1].alignment      = 1;
@@ -291,7 +292,7 @@ void processStageSelect()
             }
             else if (inputPress.B) {
                 SetupTextMenu(&gameMenu[0], 0);
-                AddTextMenuEntry(&gameMenu[0], "SELECT A PLAYER");
+                AddTextMenuEntry(&gameMenu[0], "CHARACTER SELECT");
                 SetupTextMenu(&gameMenu[1], 0);
                 LoadConfigListText(&gameMenu[1], 0);
                 gameMenu[0].alignment        = 2;
@@ -483,30 +484,29 @@ void setTextMenu(int sm)
     SetupTextMenu(&gameMenu[1], 0);
     switch (sm) {
         case DEVMENU_MAIN: {
-            AddTextMenuEntry(&gameMenu[0], "RETRO ENGINE DEV MENU");
+            AddTextMenuEntry(&gameMenu[0], "RETRO ENGINE v4a");
+            AddTextMenuEntry(&gameMenu[0], "Dev Menu");
             AddTextMenuEntry(&gameMenu[0], " ");
             char version[0x80];
             StrCopy(version, Engine.gameWindowText);
-            StrAdd(version, " Version");
             AddTextMenuEntry(&gameMenu[0], version);
             AddTextMenuEntry(&gameMenu[0], Engine.gameVersion);
             AddTextMenuEntry(&gameMenu[0], " ");
             AddTextMenuEntry(&gameMenu[0], " ");
             AddTextMenuEntry(&gameMenu[0], " ");
             AddTextMenuEntry(&gameMenu[0], " ");
+            AddTextMenuEntry(&gameMenu[0], "Start Game");
             AddTextMenuEntry(&gameMenu[0], " ");
-            AddTextMenuEntry(&gameMenu[0], "START GAME");
-            AddTextMenuEntry(&gameMenu[0], " ");
-            AddTextMenuEntry(&gameMenu[0], "STAGE SELECT");
+            AddTextMenuEntry(&gameMenu[0], "Stage Select");
 #if !RETRO_USE_ORIGINAL_CODE
             AddTextMenuEntry(&gameMenu[0], " ");
-            AddTextMenuEntry(&gameMenu[0], "START MENU");
+            AddTextMenuEntry(&gameMenu[0], "Main Menu");
 #if RETRO_USE_MOD_LOADER
             AddTextMenuEntry(&gameMenu[0], " ");
-            AddTextMenuEntry(&gameMenu[0], "MODS");
+            AddTextMenuEntry(&gameMenu[0], "Mods");
 #endif
             AddTextMenuEntry(&gameMenu[0], " ");
-            AddTextMenuEntry(&gameMenu[0], "EXIT GAME");
+            AddTextMenuEntry(&gameMenu[0], "Exit");
 #endif
             gameMenu[0].alignment        = 2;
             gameMenu[0].selectionCount   = 2;
@@ -517,16 +517,16 @@ void setTextMenu(int sm)
             break;
         }
         case DEVMENU_STAGELISTSEL:
-            AddTextMenuEntry(&gameMenu[0], "SELECT A STAGE LIST");
+            AddTextMenuEntry(&gameMenu[0], "SELECT STAGE CATEGORY");
             AddTextMenuEntry(&gameMenu[0], " ");
             AddTextMenuEntry(&gameMenu[0], " ");
-            AddTextMenuEntry(&gameMenu[0], "   PRESENTATION");
+            AddTextMenuEntry(&gameMenu[0], "   Presentation");
             AddTextMenuEntry(&gameMenu[0], " ");
-            AddTextMenuEntry(&gameMenu[0], "   REGULAR");
+            AddTextMenuEntry(&gameMenu[0], "   Regular");
             AddTextMenuEntry(&gameMenu[0], " ");
-            AddTextMenuEntry(&gameMenu[0], "   SPECIAL");
+            AddTextMenuEntry(&gameMenu[0], "   Special");
             AddTextMenuEntry(&gameMenu[0], " ");
-            AddTextMenuEntry(&gameMenu[0], "   BONUS");
+            AddTextMenuEntry(&gameMenu[0], "   Bonus");
             gameMenu[0].alignment      = 0;
             gameMenu[0].selection2     = 3;
             gameMenu[0].selectionCount = 2;

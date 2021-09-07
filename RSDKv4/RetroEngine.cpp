@@ -875,7 +875,7 @@ bool RetroEngine::LoadGameConfig(const char *filePath)
     byte fileBuffer  = 0;
     byte fileBuffer2 = 0;
     char strBuffer[0x40];
-    StrCopy(gameWindowText, "Retro-Engine"); // this is the default window name
+    StrCopy(gameWindowText, "RSDKv4"); // this is the default window name
 
     globalVariablesCount = 0;
 #if RETRO_USE_MOD_LOADER

@@ -262,47 +262,12 @@ void AddTextMenuEntry(TextMenu *menu, const char *text)
     }
     menu->rowCount++;
 }
-void AddTextMenuEntryW(TextMenu *menu, const ushort *text)
-{
-    menu->entryStart[menu->rowCount]     = menu->textDataPos;
-    menu->entrySize[menu->rowCount]      = 0;
-    menu->entryHighlight[menu->rowCount] = false;
-    int textLength                       = StrLengthW(text);
-    for (int i = 0; i < textLength;) {
-        if (text[i] != '\0') {
-            menu->textData[menu->textDataPos++] = text[i];
-            menu->entrySize[menu->rowCount]++;
-            ++i;
-        }
-        else {
-            break;
-        }
-    }
-    menu->rowCount++;
-}
 void SetTextMenuEntry(TextMenu *menu, const char *text, int rowID)
 {
     menu->entryStart[rowID]              = menu->textDataPos;
     menu->entrySize[rowID]               = 0;
     menu->entryHighlight[menu->rowCount] = false;
     int textLength                       = StrLength(text);
-    for (int i = 0; i < textLength;) {
-        if (text[i] != '\0') {
-            menu->textData[menu->textDataPos++] = text[i];
-            menu->entrySize[rowID]++;
-            ++i;
-        }
-        else {
-            break;
-        }
-    }
-}
-void SetTextMenuEntryW(TextMenu *menu, const ushort *text, int rowID)
-{
-    menu->entryStart[rowID]              = menu->textDataPos;
-    menu->entrySize[rowID]               = 0;
-    menu->entryHighlight[menu->rowCount] = false;
-    int textLength                       = StrLengthW(text);
     for (int i = 0; i < textLength;) {
         if (text[i] != '\0') {
             menu->textData[menu->textDataPos++] = text[i];

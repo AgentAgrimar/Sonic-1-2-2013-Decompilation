@@ -203,7 +203,7 @@ private:
                         rooms.push_back(newroom);
                         if (debug)
                             std::cout << "Game " << name << " created" << std::endl;
-                        self->roomID = rooms.size() - 1;
+                        self->roomID = (uint)rooms.size() - 1;
                     }
                     self->get_room().join(self);
 
@@ -333,7 +333,7 @@ private:
 
 int main(int argc, char *argv[])
 {
-    srand((uint)time(0));
+    srand((uint)time(nullptr));
     try {
         if (argc < 2) {
             std::cerr << "Pass ports as arguments. (Server [port] [port] [port]...)";
@@ -344,13 +344,13 @@ int main(int argc, char *argv[])
 
         std::list<server> servers;
         for (int i = 1; i < argc; ++i) {
-            if (std::string(argv[i]) == "debug") {
-                debug = true;
-                continue;
-            }
             if (std::string(argv[i]) == "verbose") {
                 debug   = true;
                 verbose = true;
+                continue;
+            }
+            else if (std::string(argv[i]) == "debug") {
+                debug = true;
                 continue;
             }
             tcp::endpoint endpoint(tcp::v4(), std::atoi(argv[i]));

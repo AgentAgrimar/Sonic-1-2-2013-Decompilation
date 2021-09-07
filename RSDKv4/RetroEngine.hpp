@@ -314,7 +314,11 @@ public:
     bool nativeMenuFadeIn = false;
 
     bool trialMode        = false;
+#if !RETRO_USE_ORIGINAL_CODE
+    bool onlineActive     = false;
+#else
     bool onlineActive     = true;
+#endif
     bool hapticsEnabled   = true;
     bool useHighResAssets = false;
 
@@ -355,7 +359,7 @@ public:
 
     char gameWindowText[0x40];
     char gameDescriptionText[0x100];
-    const char *gameVersion  = "1.3.0";
+    const char *gameVersion  = "1.3.0a";
     const char *gamePlatform = nullptr;
 
 #if RETRO_RENDERTYPE == RETRO_SW_RENDER
