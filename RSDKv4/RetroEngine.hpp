@@ -37,7 +37,7 @@ typedef unsigned int uint;
 #define RETRO_ANDROID  (5)
 #define RETRO_WP7      (6)
 // Custom Platforms start here
-#define RETRO_UWP (7)
+#define RETRO_UWP      (7)
 
 // Platform types (Game manages platform-specific code such as HUD position using this rather than the above)
 #define RETRO_STANDARD (0)
@@ -101,6 +101,12 @@ typedef unsigned int uint;
 #define RETRO_GAMEPLATFORM (UAP_GetRetroGamePlatform())
 #else
 #define RETRO_GAMEPLATFORM (RETRO_STANDARD)
+#endif
+
+#if !RETRO_USE_ORIGINAL_CODE && (!defined(_DEBUG) && (RETRO_PLATFORM == RETRO_UWP || RETRO_GAMEPLATFORM == RETRO_MOBILE))
+#define RETRO_DISABLE_LOG (1)
+#else
+#define RETRO_DISABLE_LOG (0)
 #endif
 
 #define RETRO_SW_RENDER  (0)

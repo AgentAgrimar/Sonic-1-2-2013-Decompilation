@@ -318,10 +318,8 @@ void ProcessMusicStream(Sint32 *stream, size_t bytes_wanted)
     }
 }
 
-void ProcessAudioPlayback(void *userdata, Uint8 *stream, int len)
+void ProcessAudioPlayback(void *, Uint8 *stream, int len)
 {
-    (void)userdata; // Unused
-
     if (!audioEnabled)
         return;
 

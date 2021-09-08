@@ -1042,7 +1042,9 @@ enum ScrFunc {
     FUNC_SETOBJECTVALUE,
     FUNC_COPYOBJECT,
 #endif
+#if !RETRO_DISABLE_LOG
     FUNC_PRINT,
+#endif
     FUNC_MAX_CNT
 };
 
@@ -2534,7 +2536,7 @@ void ParseScriptFile(char *scriptName, int scriptID)
     privateTableCount     = 0;
 
     char scriptPath[0x40];
-    StrCopy(scriptPath, "Scripts/");
+    StrCopy(scriptPath, "Data/Scripts/");
     StrAdd(scriptPath, scriptName);
     FileInfo info;
     if (LoadFile(scriptPath, &info)) {
@@ -5083,6 +5085,7 @@ void ProcessScript(int scriptCodePtr, int jumpTablePtr, byte scriptEvent)
                 break;
             }
 #endif
+#if !RETRO_DISABLE_LOG
             case FUNC_PRINT: {
                 endLine = false;
                 if (scriptEng.operands[1])
@@ -5095,6 +5098,7 @@ void ProcessScript(int scriptCodePtr, int jumpTablePtr, byte scriptEvent)
                 endLine = true;
                 break;
             }
+#endif
         }
 
         // Set Values

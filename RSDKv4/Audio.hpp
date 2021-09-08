@@ -104,7 +104,7 @@ void LoadGlobalSfx();
 #if !RETRO_USE_ORIGINAL_CODE
 // These functions did exist, but with different signatures
 void ProcessMusicStream(Sint32 *stream, size_t bytes_wanted);
-void ProcessAudioPlayback(void *data, Uint8 *stream, int len);
+void ProcessAudioPlayback(void *userdata, Uint8 *stream, int len);
 void ProcessAudioMixing(Sint32 *dst, const Sint16 *src, int len, int volume, sbyte pan);
 #endif
 

@@ -5,10 +5,12 @@
 #include <android/log.h>
 #endif
 
+#if RETRO_DISABLE_LOG
+#define printLog(msg, ...)
+#else
 extern bool endLine;
 inline void printLog(const char *msg, ...)
 {
-#ifndef RETRO_DISABLE_LOG
     if (engineDebugMode) {
         char buffer[0x100];
 
@@ -43,12 +45,10 @@ inline void printLog(const char *msg, ...)
             fClose(file);
         }
     }
-#endif
 }
 
 inline void printLog(const ushort *msg)
 {
-#ifndef RETRO_DISABLE_LOG
     if (engineDebugMode) {
         int mPos = 0;
         while (msg[mPos]) {
@@ -84,8 +84,8 @@ inline void printLog(const ushort *msg)
             fClose(file);
         }
     }
-#endif
 }
+#endif
 
 enum DevMenuMenus {
     DEVMENU_MAIN,

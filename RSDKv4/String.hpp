@@ -8,7 +8,7 @@
 
 enum TextAlignments { ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT };
 
-#define USE_STDLIB
+#define USE_STDLIB 1
 
 extern ushort *strPressStart;
 extern ushort *strTouchToStart;
