@@ -150,14 +150,6 @@ inline int StrLength(const char *string)
 int FindStringToken(const char *string, const char *token, char stopID);
 
 
-inline int StrLengthW(const ushort *string)
-{
-    int len = 0;
-    for (len = 0; string[len]; len++)
-        ;
-    return len;
-}
-
 int FindStringTokenUnicode(const ushort *string, const ushort *token, char stopID);
 
 inline void StringLowerCase(char *dest, const char *src)
