@@ -4,6 +4,12 @@
 // Disables POSIX use c++ name blah blah stuff
 #pragma warning(disable : 4996)
 
+#if defined(_DEBUG) || !defined(NDEBUG)
+#define RETRO_DEBUG (1)
+#else
+#define RETRO_DEBUG (0)
+#endif
+
 // Setting this to true removes (almost) ALL changes from the original code, the trade off is that a playable game cannot be built, it is advised to
 // be set to true only for preservation purposes
 #define RETRO_USE_ORIGINAL_CODE (0)
@@ -103,10 +109,10 @@ typedef unsigned int uint;
 #define RETRO_GAMEPLATFORM (RETRO_STANDARD)
 #endif
 
-#if !RETRO_USE_ORIGINAL_CODE && (!defined(_DEBUG) && (RETRO_PLATFORM == RETRO_UWP || RETRO_GAMEPLATFORM == RETRO_MOBILE))
-#define RETRO_DISABLE_LOG (1)
-#else
+#if RETRO_DEBUG || (RETRO_PLATFORM != RETRO_UWP && RETRO_GAMEPLATFORM != RETRO_MOBILE)
 #define RETRO_DISABLE_LOG (0)
+#else
+#define RETRO_DISABLE_LOG (1)
 #endif
 
 #define RETRO_SW_RENDER  (0)
@@ -126,7 +132,7 @@ typedef unsigned int uint;
 #define RETRO_USING_OPENGL (1)
 
 #define RETRO_SOFTWARE_RENDER (RETRO_RENDERTYPE == RETRO_SW_RENDER)
-//#define RETRO_HARDWARE_RENDER (RETRO_RENDERTYPE == RETRO_HW_RENDER)
+#define RETRO_HARDWARE_RENDER (RETRO_RENDERTYPE == RETRO_HW_RENDER)
 
 #if RETRO_USING_OPENGL
 #if RETRO_PLATFORM == RETRO_ANDROID
@@ -333,7 +339,11 @@ public:
 
 #if !RETRO_USE_ORIGINAL_CODE
     // Ported from RSDKv5
+#if RETRO_DEBUG
+    bool devMenu         = true;
+#else
     bool devMenu         = false;
+#endif
     int startList        = -1;
     int startStage       = -1;
     int startPlayer      = -1;

@@ -34,7 +34,7 @@
 
 #endif
 
-#define RETRO_PACKFILE_COUNT (0x1000)
+#define RETRO_PACKFILE_COUNT (0x4)
 #define RETRO_PACK_COUNT     (0x4)
 
 struct FileInfo {

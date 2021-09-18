@@ -1051,7 +1051,6 @@ enum ScrFunc {
 #if RETRO_USE_COMPILER
 void CheckAliasText(char *text)
 {
-    sizeof(publicTables);
     if (FindStringToken(text, "publicalias", 1) && FindStringToken(text, "privatealias", 1))
         return;
     int textPos     = 11;

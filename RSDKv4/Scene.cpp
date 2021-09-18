@@ -270,11 +270,11 @@ void ProcessStage(void)
             CheckKeyDown(&inputDown);
             CheckKeyPress(&inputPress);
 
-            if (pauseEnabled && inputPress.start) {
-                // stageMode = STAGEMODE_PAUSED_STEPOVER;
-                // stageMode = STAGEMODE_NORMAL;
-                // ResumeSound();
-            }
+            /*if (pauseEnabled && inputPress.start) {
+                stageMode = STAGEMODE_PAUSED_STEPOVER;
+                stageMode = STAGEMODE_NORMAL;
+                ResumeSound();
+            }*/
 
             // Update
             ProcessPausedObjects();

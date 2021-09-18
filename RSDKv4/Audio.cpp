@@ -29,6 +29,10 @@ ChannelInfo sfxChannels[CHANNEL_COUNT];
 
 int currentMusicTrack = -1;
 
+#if !RETRO_USE_ORIGINAL_CODE
+int sfxIDExtraLife = -1;
+#endif
+
 #if RETRO_USING_SDL1 || RETRO_USING_SDL2
 
 #if RETRO_USING_SDL2
@@ -323,6 +327,23 @@ void ProcessAudioPlayback(void *, Uint8 *stream, int len)
     if (!audioEnabled)
         return;
 
+    // FIXME: This sucks! Find a better way to do this later...
+    bool extraLife = false;
+    if (sfxIDExtraLife >= 0)
+        for (byte i = 0; i < CHANNEL_COUNT; ++i) {
+            ChannelInfo *sfx = &sfxChannels[i];
+            if (sfx == NULL)
+                continue;
+
+            if (sfx->sfxID < 0)
+                continue;
+
+            if (sfx->sfxID == sfxIDExtraLife) {
+                extraLife = true;
+                break;
+            }
+        }
+
     Sint16 *output_buffer = (Sint16 *)stream;
 
     size_t samples_remaining = (size_t)len / sizeof(Sint16);
@@ -363,6 +384,9 @@ void ProcessAudioPlayback(void *, Uint8 *stream, int len)
                         }
                         else {
                             MEM_ZEROP(sfx);
+                            if (sfx->sfxID == sfxIDExtraLife) {
+                                extraLife = false;
+                            }
                             sfx->sfxID = -1;
                             break;
                         }
@@ -370,7 +394,8 @@ void ProcessAudioPlayback(void *, Uint8 *stream, int len)
                 }
 
 #if RETRO_USING_SDL1 || RETRO_USING_SDL2
-                ProcessAudioMixing(mix_buffer, buffer, (int)samples_done, sfxVolume, sfx->pan);
+                if (!extraLife || sfx->sfxID == sfxIDExtraLife)
+                    ProcessAudioMixing(mix_buffer, buffer, (int)samples_done, sfxVolume, sfx->pan);
 #endif
             }
         }
@@ -604,6 +629,11 @@ void SetSfxName(const char *sfxName, int sfxID)
     }
     sfxNames[sfxID][soundNameID] = 0;
     printLog("Set SFX (%d) name to: %s", sfxID, sfxName);
+
+#if !RETRO_USE_ORIGINAL_CODE
+    if (sfxIDExtraLife == -1 && StrComp(sfxName, "Life"))
+        sfxIDExtraLife = sfxID;
+#endif
 }
 
 void LoadSfx(char *filePath, byte sfxID)

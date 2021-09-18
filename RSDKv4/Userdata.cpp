@@ -92,10 +92,11 @@ void InitUserdata()
     if (!file) {
         IniParser ini;
 
-        ini.SetBool("Dev", "DevMenu", Engine.devMenu = false);
-#if _DEBUG
+#if RETRO_DEBUG
+        ini.SetBool("Dev", "DevMenu", Engine.devMenu = true);
         ini.SetBool("Dev", "EngineDebugMode", engineDebugMode = true);
 #else
+        ini.SetBool("Dev", "DevMenu", Engine.devMenu = false);
         ini.SetBool("Dev", "EngineDebugMode", engineDebugMode = false);
 #endif
 		ini.SetBool("Dev", "TxtScripts", forceUseScripts = false);
@@ -222,9 +223,13 @@ void InitUserdata()
         IniParser ini(buffer, false);
 
         if (!ini.GetBool("Dev", "DevMenu", &Engine.devMenu))
+#if RETRO_DEBUG
+            Engine.devMenu = true;
+#else
             Engine.devMenu = false;
+#endif
         if (!ini.GetBool("Dev", "EngineDebugMode", &engineDebugMode))
-#if _DEBUG
+#if RETRO_DEBUG
             engineDebugMode = true;
 #else
             engineDebugMode = false;
@@ -838,52 +843,52 @@ void Connect2PVS(int *gameLength, int *itemMode)
     // actual connection code
     vsGameLength = *gameLength;
     vsItemMode   = *itemMode;
-    if (Engine.onlineActive) {
 #if RETRO_USE_NETWORKING
+    if (Engine.onlineActive) {
         disableFocusPause_Store = disableFocusPause;
         disableFocusPause       = true;
         runNetwork();
-#endif
     }
+#endif
 }
 void Disconnect2PVS()
 {
     printLog("Attempting to disconnect from 2P game");
 
-    if (Engine.onlineActive) {
 #if RETRO_USE_NETWORKING
+    if (Engine.onlineActive) {
         disableFocusPause = disableFocusPause_Store;
         //Engine.devMenu    = vsPlayerID;
         vsPlaying         = false;
         disconnectNetwork();
         initNetwork();
-#endif
     }
+#endif
 }
-void SendEntity(int *entityID, void *unused)
+void SendEntity(int *entityID, void *)
 {
     if (!sendCounter) {
         multiplayerDataOUT.type = 1;
         memcpy(multiplayerDataOUT.data, &objectEntityList[*entityID], sizeof(Entity));
-        if (Engine.onlineActive) {
 #if RETRO_USE_NETWORKING
+        if (Engine.onlineActive) {
             sendData();
-#endif
         }
+#endif
     }
     sendCounter = (sendCounter + 1) % 2;
 }
-void SendValue(int *value, void *unused)
+void SendValue(int *value, void *)
 {
     // printLog("Attempting to send value (%d) (%d)", *dataSlot, *value);
 
     multiplayerDataOUT.type    = 0;
     multiplayerDataOUT.data[0] = *value;
-    if (Engine.onlineActive) {
 #if RETRO_USE_NETWORKING
+    if (Engine.onlineActive) {
         sendData();
-#endif
     }
+#endif
 }
 bool recieveReady = false;
 void ReceiveEntity(int *entityID, int *incrementPos)
@@ -927,11 +932,11 @@ void TransmitGlobal(int *globalValue, const char *globalName)
     multiplayerDataOUT.type    = 2;
     multiplayerDataOUT.data[0] = GetGlobalVariableID(globalName);
     multiplayerDataOUT.data[1] = *globalValue;
-    if (Engine.onlineActive) {
 #if RETRO_USE_NETWORKING
+    if (Engine.onlineActive) {
         sendData();
-#endif
     }
+#endif
 }
 
 void receive2PVSData(MultiplayerData *data)
@@ -969,14 +974,6 @@ void receive2PVSMatchCode(int code)
 }
 
 void ShowPromoPopup(int *id, const char *popupName) { printLog("Attempting to show promo popup: \"%s\" (%d)", popupName, id ? *id : 0); }
-void ShowSegaIDPopup()
-{
-    // nothing here, its just all to a java method of the same name
-}
-void ShowOnlineSignIn()
-{
-    // nothing here, its just all to a java method of the same name
-}
 void ShowWebsite(int websiteID)
 {
     switch (websiteID) {
@@ -991,7 +988,7 @@ void ExitGame()
     Engine.running = false;
 }
 
-void SetScreenWidth(int *width, int *unused)
+void SetScreenWidth(int *width, int *)
 {
     SCREEN_XSIZE = SCREEN_XSIZE_CONFIG = *width;
 #if RETRO_PLATFORM != RETRO_ANDROID

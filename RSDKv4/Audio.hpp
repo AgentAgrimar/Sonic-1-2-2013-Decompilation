@@ -3,7 +3,7 @@
 
 #define TRACK_COUNT (0x10)
 #define SFX_COUNT   (0x100)
-#if !RETRO_USE_ORIGINAL_CODE
+#if RETRO_USE_MOD_LOADER
 #define CHANNEL_COUNT (0x10) // 4 in the original, 16 for convenience
 #else
 #define CHANNEL_COUNT (0x4)

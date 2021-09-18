@@ -1,8 +1,19 @@
 #include "RetroEngine.hpp"
 
+#if !RETRO_USE_ORIGINAL_CODE
+int optionsMenuButtonCount;
+#endif
+
 void OptionsMenu_Create(void *objPtr)
 {
     RSDK_THIS(OptionsMenu);
+
+#if !RETRO_USE_ORIGINAL_CODE
+    optionsMenuButtonCount = OPTIONSMENU_BUTTON_COUNT;
+    if (optionsMenuButtonCount == 5 && !Engine.devMenu)
+        optionsMenuButtonCount--;
+#endif
+
     entity->menuControl      = (NativeEntity_MenuControl *)GetNativeObject(0);
     entity->labelPtr         = CREATE_ENTITY(TextLabel);
     entity->labelPtr->fontID = FONT_HEADING;
@@ -22,7 +33,11 @@ void OptionsMenu_Create(void *objPtr)
     entity->labelPtr->useRenderMatrix = true;
 
     float y = 48.0;
+#if !RETRO_USE_ORIGINAL_CODE
+    for (int i = 0; i < optionsMenuButtonCount; ++i) {
+#else
     for (int i = 0; i < OPTIONSMENU_BUTTON_COUNT; ++i) {
+#endif
         entity->buttons[i] = CREATE_ENTITY(SubMenuButton);
 
         entity->buttons[i]->matXOff = 512.0;
@@ -36,17 +51,14 @@ void OptionsMenu_Create(void *objPtr)
         entity->buttons[i]->useMatrix = true;
         y -= 30.0;
     }
-#if !RETRO_USE_ORIGINAL_CODE
-    if (!Engine.devMenu)
-        SetStringToFont(entity->buttons[OPTIONSMENU_BUTTON_INSTRUCTIONS]->text, strInstructions, FONT_LABEL);
-    else
-        SetStringToFont(entity->buttons[OPTIONSMENU_BUTTON_INSTRUCTIONS]->text, strDevMenu, FONT_LABEL);
-#else
     SetStringToFont(entity->buttons[OPTIONSMENU_BUTTON_INSTRUCTIONS]->text, strInstructions, FONT_LABEL);
-#endif
     SetStringToFont(entity->buttons[OPTIONSMENU_BUTTON_SETTINGS]->text, strSettings, FONT_LABEL);
     SetStringToFont(entity->buttons[OPTIONSMENU_BUTTON_ABOUT]->text, strAbout, FONT_LABEL);
     SetStringToFont(entity->buttons[OPTIONSMENU_BUTTON_CREDITS]->text, strStaffCredits, FONT_LABEL);
+#if !RETRO_USE_ORIGINAL_CODE
+    if (optionsMenuButtonCount == 5)
+        SetStringToFont(entity->buttons[OPTIONSMENU_BUTTON_DEVMENU]->text, strDevMenu, FONT_LABEL);
+#endif
 }
 void OptionsMenu_Main(void *objPtr)
 {
@@ -203,19 +215,8 @@ void OptionsMenu_Main(void *objPtr)
                 switch (entity->selectedButton) {
                     default: break;
                     case OPTIONSMENU_BUTTON_INSTRUCTIONS:
-#if !RETRO_USE_ORIGINAL_CODE
-                        if (!Engine.devMenu) {
-                            entity->instructionsScreen              = CREATE_ENTITY(InstructionsScreen);
-                            entity->instructionsScreen->optionsMenu = entity;
-                        }
-                        else {
-                            CREATE_ENTITY(FadeScreen);
-                            Engine.gameMode = ENGINE_INITDEVMENU;
-                        }
-#else
                         entity->instructionsScreen              = CREATE_ENTITY(InstructionsScreen);
                         entity->instructionsScreen->optionsMenu = entity;
-#endif
                         break;
                     case OPTIONSMENU_BUTTON_SETTINGS:
                         entity->settingsScreen              = CREATE_ENTITY(SettingsScreen);
@@ -229,6 +230,12 @@ void OptionsMenu_Main(void *objPtr)
                         entity->staffCredits              = CREATE_ENTITY(StaffCredits);
                         entity->staffCredits->optionsMenu = entity;
                         break;
+#if !RETRO_USE_ORIGINAL_CODE
+                    case OPTIONSMENU_BUTTON_DEVMENU:
+                        CREATE_ENTITY(FadeScreen);
+                        Engine.gameMode = ENGINE_INITDEVMENU;
+                        break;
+#endif
                 }
             }
 

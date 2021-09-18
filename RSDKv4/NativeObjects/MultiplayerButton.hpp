@@ -1,6 +1,8 @@
 #ifndef NATIVE_VSBUTTON_H
 #define NATIVE_VSBUTTON_H
 
+#if RETRO_USE_NETWORKING
+
 struct NativeEntity_MultiplayerButton : NativeEntityBase {
     int field_10;
     byte visible;
@@ -19,12 +21,12 @@ struct NativeEntity_MultiplayerButton : NativeEntityBase {
     MatrixF renderMatrix;
     MatrixF matrixTemp;
     NativeEntity_TextLabel *labelPtr;
-#if RETRO_USE_NETWORKING
     float connectTimer;
-#endif
 };
 
 void MultiplayerButton_Create(void *objPtr);
 void MultiplayerButton_Main(void *objPtr);
+
+#endif
 
 #endif // !NATIVE_VSBUTTON_H

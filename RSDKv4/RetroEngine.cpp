@@ -2,7 +2,7 @@
 
 #if !RETRO_USE_ORIGINAL_CODE
 bool usingCWD        = false;
-#if _DEBUG
+#if RETRO_DEBUG
 bool engineDebugMode = true;
 #else
 bool engineDebugMode = false;
@@ -244,10 +244,6 @@ bool processEvents()
 
 void RetroEngine::Init()
 {
-#if RETRO_PLATFORM == RETRO_ANDROID
-    sleep(1); // wait to initialize the engine
-#endif
-
     CalculateTrigAngles();
     GenerateBlendLookupTable();
 
@@ -383,15 +379,26 @@ void RetroEngine::Init()
                     }
                     skipStartMenu = true;
                 }
-#endif
+            }
+            else {
+                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "RSDKv4", "Failed to initialze audio playback!", window);
             }
         }
+        else {
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "RSDKv4", "Failed to initialze render device!", window);
+        }
+    }
+    else {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "RSDKv4", "Unable to load game config!", window);
     }
 
-#if !RETRO_USE_ORIGINAL_CODE
     gameType = GAME_SONIC2;
     if (strstr(gameWindowText, "Sonic 1")) {
         gameType = GAME_SONIC1;
+    }
+#else
+            }
+        }
     }
 #endif
 

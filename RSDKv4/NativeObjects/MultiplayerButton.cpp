@@ -1,5 +1,7 @@
 #include "RetroEngine.hpp"
 
+#if RETRO_USE_NETWORKING
+
 void MultiplayerButton_Create(void *objPtr)
 {
     RSDK_THIS(MultiplayerButton);
@@ -25,14 +27,12 @@ void MultiplayerButton_Main(void *objPtr)
 {
     RSDK_THIS(MultiplayerButton);
 
-#if RETRO_USE_NETWORKING
     if (entity->connectTimer) {
         entity->connectTimer += Engine.deltaTime;
         if (entity->connectTimer >= 0.7f) {
             entity->connectTimer = 0;
         }
     }
-#endif
     if (entity->visible) {
         if (entity->scale < 0.2) {
             entity->scale += ((0.25 - entity->scale) / ((60.0 * Engine.deltaTime) * 16.0));
@@ -69,12 +69,12 @@ void MultiplayerButton_Main(void *objPtr)
             if (label->alpha < 0x100)
                 label->alpha += 8;
         }
-#if RETRO_USE_NETWORKING
         if (!Engine.onlineActive && entity->labelPtr->state == TEXTLABEL_STATE_BLINK_FAST && !entity->connectTimer) {
             entity->connectTimer = 0.1f;
             disconnectNetwork();
             initNetwork(); // let's see if we can turn it on
         }
-#endif
     }
 }
+
+#endif

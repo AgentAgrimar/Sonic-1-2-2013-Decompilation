@@ -16,6 +16,7 @@ void MenuControl_Create(void *objPtr)
     entity->buttonFlags[entity->buttonCount] = BUTTON_TIMEATTACK;
     entity->buttonCount++;
 
+#if RETRO_USE_NETWORKING
 #if RETRO_USE_MOD_LOADER
     int vsID = GetSceneID(STAGELIST_PRESENTATION, "2P VS");
     if (vsID != -1) {
@@ -26,6 +27,7 @@ void MenuControl_Create(void *objPtr)
         entity->buttonFlags[entity->buttonCount] = BUTTON_MULTIPLAYER;
         entity->buttonCount++;
     }
+#endif
 
     if (Engine.onlineActive) {
         entity->buttons[entity->buttonCount]     = CREATE_ENTITY(AchievementsButton);
