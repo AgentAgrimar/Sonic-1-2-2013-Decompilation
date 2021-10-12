@@ -1101,9 +1101,7 @@ void CheckAliasText(char *text)
 
     for (int v = 0; v < *cnt; ++v) {
         if (StrComp(priv ? privateAliases[v].name : publicAliases[v].name, a->name)) {
-            char buf[0x40];
-            sprintf(buf, "Warning: Alias %s has already been used!", a->name);
-            printLog(buf);
+            printLog("Warning: Alias %s has already been used!", a->name);
         }
     }
 
@@ -1197,9 +1195,7 @@ void CheckStaticText(char *text)
 
     for (int v = 0; v < *cnt; ++v) {
         if (StrComp(priv ? privateStaticVariables[v].name : publicStaticVariables[v].name, var->name)) {
-            char buf[0x40];
-            sprintf(buf, "Warning: Variable %s has already been used!", var->name);
-            printLog(buf);
+            printLog("Warning: Variable %s has already been used!", var->name);
         }
     }
 
@@ -1638,9 +1634,7 @@ void ConvertFunctionText(char *text)
                 }
 
                 if (o == OBJECT_COUNT) {
-                    char buf[0x40];
-                    sprintf(buf, "WARNING: Unknown typename \"%s\", on line %d", arrayStr, lineID);
-                    printLog(buf);
+                    printLog("WARNING: Unknown typename \"%s\", on line %d", arrayStr, lineID);
                 }
             }
 
@@ -1658,9 +1652,7 @@ void ConvertFunctionText(char *text)
                 }
 
                 if (s == SFX_COUNT) {
-                    char buf[0x40];
-                    sprintf(buf, "WARNING: Unknown sfxName \"%s\", on line %d", arrayStr, lineID);
-                    printLog(buf);
+                    printLog("WARNING: Unknown sfxName \"%s\", on line %d", arrayStr, lineID);
                 }
             }
 
@@ -1690,9 +1682,7 @@ void ConvertFunctionText(char *text)
                 }
 
                 if (a == achievementCount) {
-                    char buf[0x40];
-                    sprintf(buf, "WARNING: Unknown AchievementName \"%s\", on line %d", arrayStr, lineID);
-                    printLog(buf);
+                    printLog("WARNING: Unknown AchievementName \"%s\", on line %d", arrayStr, lineID);
                 }
             }
 
@@ -1721,9 +1711,7 @@ void ConvertFunctionText(char *text)
                 }
 
                 if (p == PLAYER_MAX) {
-                    char buf[0x40];
-                    sprintf(buf, "WARNING: Unknown PlayerName \"%s\", on line %d", arrayStr, lineID);
-                    printLog(buf);
+                    printLog("WARNING: Unknown PlayerName \"%s\", on line %d", arrayStr, lineID);
                 }
             }
 
@@ -1734,9 +1722,7 @@ void ConvertFunctionText(char *text)
                 int s = GetSceneID(activeStageList, arrayStr);
 
                 if (s == -1) {
-                    char buf[0x40];
-                    sprintf(buf, "WARNING: Unknown StageName \"%s\", on line %d", arrayStr, lineID);
-                    printLog(buf);
+                    printLog("WARNING: Unknown StageName \"%s\", on line %d", arrayStr, lineID);
                 }
                 funcName[0] = 0;
                 AppendIntegerToString(funcName, s);
@@ -2646,9 +2632,7 @@ void ParseScriptFile(char *scriptName, int scriptID)
                             StrCopy(scriptFunctionNames[scriptFunctionCount++], funcName);
                         }
                         else {
-                            char buf[0x40];
-                            sprintf(buf, "Warning: Function %s has already been reserved!", funcName);
-                            printLog(buf);
+                            printLog("Warning: Function %s has already been reserved!", funcName);
                         }
                         parseMode = PARSEMODE_SCOPELESS;
                     }
@@ -2778,9 +2762,7 @@ void ParseScriptFile(char *scriptName, int scriptID)
                         if (curTablePublic) {
                             for (int t = 0; t < publicTableCount; ++t) {
                                 if (StrComp(publicTables[t].name, currentTable->name)) {
-                                    char buf[0x40];
-                                    sprintf(buf, "Warning: Table %s has already been used!", currentTable->name);
-                                    printLog(buf);
+                                    printLog("Warning: Table %s has already been used!", currentTable->name);
                                 }
                             }
 
@@ -2790,9 +2772,7 @@ void ParseScriptFile(char *scriptName, int scriptID)
                         else {
                             for (int t = 0; t < privateTableCount; ++t) {
                                 if (StrComp(privateTables[t].name, currentTable->name)) {
-                                    char buf[0x40];
-                                    sprintf(buf, "Warning: Table %s has already been used!", currentTable->name);
-                                    printLog(buf);
+                                    printLog("Warning: Table %s has already been used!", currentTable->name);
                                 }
                             }
 
